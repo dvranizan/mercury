@@ -29,26 +29,27 @@ class FuncThread(threading.Thread):
         self._target(*self._args)
 
 def init_sub():
-    """setup logging"""
+    # setup logging
     logging.basicConfig(level=logging.DEBUG)
 
-    """set save dir"""
+    # Hardset set save dir
+    # TODO: Generalize this routine, allow for init via config
     global_values.set_base_file_path("/home/david/clipdump")
     global_values.set_base_http_path("http://subsonic.brewpdx.org/clipdump")
 
 def take_screenshot():
-    """user wants screencap, listen to mouse and get"""
+    # user wants screencap, listen to mouse and get
     logging.debug("Initing mouse thread...")
     window = initMouseAndGetSquare()
     b = convert_to_offset(global_values.box)
-    """ grab a file name """
+    # grab a file name
     filename = global_values.get_file_path()
     logging.info("Grabbing screencap box at:"+str(b))
     logging.info("Init fb grab, storing at "+str(filename)+" ...")
     s = screengrab(b[0],b[1],b[2],b[3], filename, window)
     screen = s.screen()
     if (screen):
-        """ success! put file path in buffer """
+        # success! put file path in buffer
         add_http_path_to_clipboard(global_values.get_http_path(filename))
         logging.debug("File saved at "+str(screen))
     else:
@@ -56,13 +57,14 @@ def take_screenshot():
     del screen
 
 if __name__ == '__main__':
-    """setup logging"""
+    # setup logging
     logging.basicConfig(level=logging.DEBUG)
 
-    """set save dir"""
+    # set save dir
+    # TODO - This needs to be generalized and moved into init routine
     global_values.set_base_file_path("/home/david/clipdump")
     global_values.set_base_http_path("http://subsonic.brewpdx.org/clipdump")
-    """create event for triggering of screen grab"""
+    # create event for triggering of screen grab
     #keyboardEvent = threading.Event()
     mouseEvent = threading.Event()
     #keyboardEvent.clear()
@@ -74,14 +76,14 @@ if __name__ == '__main__':
     #inputMouseThread.start()
     #inputKeyboardThread.start()
 
-    """wait for event trigger"""
+    # wait for event trigger
     while(1):
         #keyboardEvent.wait()
-        """user wants screencap, listen to mouse and get"""
+        # user wants screencap, listen to mouse and get
         logging.debug("Initing mouse thread...")
         window = initMouseAndGetSquare(mouseEvent)
         b = convert_to_offset(global_values.box)
-        """ grab a file name """
+        # grab a file name
         filename = global_values.get_file_path()
         logging.info("Grabbing screencap box at:"+str(b))
         logging.info("Init fb grab, storing at "+str(filename)+" ...")
@@ -89,7 +91,7 @@ if __name__ == '__main__':
         s = screengrab(b[0],b[1],b[2],b[3], filename, window)
         screen = s.screen()
         if (screen):
-            """ success! put file path in buffer """
+            # success! put file path in buffer
             add_http_path_to_clipboard(global_values.get_http_path(filename))
             logging.debug("File saved at "+str(screen))
         else:

@@ -37,7 +37,7 @@ class screengrab:
         #w = gtk.gdk.get_default_root_window()
                              
         if (self.x1 <= 0):
-            """ use entire screen """
+            # use entire screen
             sz = w.get_size()
             self.x1 = 0
             self.y1 = 0
@@ -57,7 +57,7 @@ class screengrab:
         import StringIO
         logging.debug("In QT grab...")
         if not global_values.app:
-            """ init QT app for capture """
+            # init QT app for captuer
             global_values.app = QApplication(sys.argv)
         f = QFile(self.filename)
         f.open(QIODevice.WriteOnly)
